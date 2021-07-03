@@ -21,8 +21,29 @@ function buildTable (data) {
             let cell = row.append("td");
             //specify that the variabble only holds the text of a value
             cell.text(val);
-
+            
             }
         );
     });
+};
+
+function handleClick() {
+    //select elements that matches #datetime
+    //chain .propety("value"); to search for date values
+    //grab the information & hold in the date variable 
+    let date = d3.select("#datatime").property("value");
+    //set default filter & save to a new variable
+    let filteredData = tableData;
+    //use if statement to create date filter
+    if (date) {
+        filteredData = filteredData.filter(row => row.datetime === date);
+    }
+    //rebuild the table using filtered data
+    buildTable(filteredData);
 }
+
+//attach an event to listen for the form button 
+d3.selectAll("#filter-btn").on("click", handleClick);
+
+//build the table when the page loads
+buildTable(tableData);
